@@ -4,6 +4,12 @@
 	"description": "Send http requests with redux-saga",
 	"author": "Joonmo Yang <dev@remagpie.com>",
 	"license": "BSD-2-Clause",
+	"scripts": {
+		"lint": "yarn lint:tsc && yarn lint:eslint",
+		"lint:tsc": "tsc --noEmit -p tsconfig.json",
+		"lint:eslint": "eslint --ext .ts src/",
+		"fmt": "eslint --ext .ts src/ --fix && prettier \"*.json\" --write"
+	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^1.13.0",
 		"@typescript-eslint/parser": "^1.13.0",

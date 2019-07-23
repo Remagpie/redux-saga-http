@@ -1,0 +1,7 @@
+{
+	"name": "redux-saga-http",
+	"version": "0.1.0",
+	"description": "Send http requests with redux-saga",
+	"author": "Joonmo Yang <dev@remagpie.com>",
+	"license": "BSD-2-Clause"
+}

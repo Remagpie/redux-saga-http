@@ -3,5 +3,16 @@
 	"version": "0.1.0",
 	"description": "Send http requests with redux-saga",
 	"author": "Joonmo Yang <dev@remagpie.com>",
-	"license": "BSD-2-Clause"
+	"license": "BSD-2-Clause",
+	"devDependencies": {
+		"@typescript-eslint/eslint-plugin": "^1.13.0",
+		"@typescript-eslint/parser": "^1.13.0",
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb-base": "^13.2.0",
+		"eslint-config-prettier": "^6.0.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-prettier": "^3.1.0",
+		"prettier": "^1.18.2",
+		"typescript": "^3.5.3"
+	}
 }

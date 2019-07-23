@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"outDir": "lib",
+
+		"target": "ES2018",
+		"lib": ["ES2018"],
+		"moduleResolution": "node",
+
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules"]
+}

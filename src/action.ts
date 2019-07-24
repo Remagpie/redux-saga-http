@@ -1,3 +1,5 @@
+import { HttpError } from "./error";
+
 export type HttpAction<Parameter, Request> = {
 	type: string;
 	payload: {
@@ -28,7 +30,7 @@ export type HttpFailAction<Parameter, Request> = {
 	payload: {
 		params: Parameter;
 		request: Request;
-		error: Error;
+		error: HttpError;
 	};
 	error: true;
 };

@@ -1,10 +1,11 @@
 import { HttpFinishAction, HttpStartAction } from "./action";
+import { HttpError } from "./error";
 
 function unreachable(_value: never): any {}
 
 export type HttpState = {
 	resolved: boolean;
-	error?: Error;
+	error?: HttpError;
 };
 
 export function createSingleHttpReducer<Parameter, Request>(type: string) {

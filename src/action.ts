@@ -39,6 +39,10 @@ export type HttpFinishAction<Parameter, Request> =
 	| HttpSuccessAction<Parameter, Request>
 	| HttpFailAction<Parameter, Request>;
 
+export type HttpSagaAction<Parameter, Request> =
+	| HttpStartAction<Parameter, Request>
+	| HttpFinishAction<Parameter, Request>;
+
 export function createHttpAction<Parameter, Request>(type: string) {
 	type P = Parameter;
 	type Q = Request;

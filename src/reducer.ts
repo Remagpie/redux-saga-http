@@ -1,6 +1,7 @@
 import { HttpFinishAction, HttpSagaAction } from "./action";
 import { HttpError } from "./error";
 
+/* istanbul ignore next */
 function unreachable(_value: never): any {}
 
 export type HttpState = {
@@ -43,6 +44,7 @@ export function createSingleHttpReducer<Parameter, Request>(type: string) {
 						: undefined,
 				};
 			}
+			/* istanbul ignore next */
 			default: {
 				return unreachable(step);
 			}
@@ -87,6 +89,7 @@ export function createObjectHttpReducer<Parameter, Request>(
 					},
 				};
 			}
+			/* istanbul ignore next */
 			default: {
 				return unreachable(step);
 			}
@@ -131,6 +134,7 @@ export function createArrayHttpReducer<Parameter, Request>(
 					},
 				};
 			}
+			/* istanbul ignore next */
 			default: {
 				return unreachable(step);
 			}

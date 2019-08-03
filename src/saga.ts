@@ -87,7 +87,7 @@ export function createHttpSaga<Parameter, Request>(options: {
 }
 
 function* httpRequest<Parameter, Request>(
-	params: Parameter,
+	_params: Parameter,
 	request: Request,
 	options: {
 		type: string;
@@ -95,35 +95,19 @@ function* httpRequest<Parameter, Request>(
 		method: Method;
 	}
 ) {
-	type P = Parameter;
-	type Q = Request;
-	try {
-		// FIXME: apply url parameters to path
-		const { path, method } = options;
+	// FIXME: apply url parameters to path
+	const { path, method } = options;
 
-		const init: RequestInit = {
-			method,
-			headers: { "Content-Type": "application/json" },
-			body: request === undefined ? undefined : JSON.stringify(request),
-		};
+	const init: RequestInit = {
+		method,
+		headers: { "Content-Type": "application/json" },
+		body: request === undefined ? undefined : JSON.stringify(request),
+	};
 
-		const response: Response = yield fetch(path, init);
-		if (response.status >= 400) {
-			throw new StatusError(response);
-		}
-
-		return response;
-	} catch (error) {
-		const failAction: HttpFailAction<P, Q> = {
-			type: `${options.type}/FINISH`,
-			payload: {
-				params,
-				request,
-				error,
-			},
-			error: true,
-		};
-		yield effects.put(failAction);
-		throw error;
+	const response: Response = yield fetch(path, init);
+	if (response.status >= 400) {
+		throw new StatusError(response);
 	}
+
+	return response;
 }

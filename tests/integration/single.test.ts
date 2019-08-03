@@ -124,10 +124,13 @@ describe("Single Http Saga Integration", () => {
 	});
 
 	it("should not execute saga if there is unresolved request", async () => {
-		tester.updateState({ resolved: false });
+		// Transition to unresolved state by sending start action
+		tester.dispatch({ type: `${httpAction.type}/START`, payload });
 		tester.dispatch(httpAction);
 		const actions = tester.getCalledActions();
-		expect(actions).to.be.lengthOf(3);
+
+		// start action + http action
+		expect(actions).to.be.lengthOf(1 + 1);
 	});
 
 	afterEach(() => {

@@ -20,6 +20,8 @@
 	},
 	"rules": {
 		"func-names": ["error", "always", { "generators": "never" }],
+		"no-plusplus": "off",
+		"no-restricted-syntax": "off",
 		"no-use-before-define": "off",
 		"no-undef": "off",
 		"no-unused-vars": "off",

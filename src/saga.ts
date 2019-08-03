@@ -32,7 +32,7 @@ export function createHttpSaga<Parameter, Request>(options: {
 			// Debounce requests
 			const selector = (state: State) => options.selector(state, action);
 			const state: State = yield effects.select(selector);
-			if (!state.resolved) {
+			if (state != null && !state.resolved) {
 				return;
 			}
 

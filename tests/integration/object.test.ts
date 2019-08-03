@@ -99,7 +99,7 @@ describe("Object Http Saga Integration", () => {
 		type,
 		path,
 		method,
-		selector: (s: ObjectHttpState, a) => s[key(a.payload)],
+		selector: (s: ObjectHttpState, p) => s[key(p)],
 		*callback(data: any): IterableIterator<any> {
 			yield effects.put({
 				type: "CALLBACK",

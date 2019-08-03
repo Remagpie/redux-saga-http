@@ -4,6 +4,7 @@ export {
 	createArrayHttpReducer,
 	createObjectHttpReducer,
 	createSingleHttpReducer,
+	HttpState,
 } from "./reducer";
 export {
 	createHttpSaga,

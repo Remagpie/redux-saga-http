@@ -15,7 +15,7 @@ export function createHttpSaga<Parameter, Request>(options: {
 	type: string;
 	path: string;
 	method: Method;
-	selector: (state: any) => HttpState;
+	selector: (state: any, action: HttpAction<Parameter, Request>) => HttpState;
 	callback?: (data: {
 		params: Parameter;
 		request: Request;
@@ -30,7 +30,8 @@ export function createHttpSaga<Parameter, Request>(options: {
 			action: HttpAction<P, Q>
 		) {
 			// Debounce requests
-			const state: State = yield effects.select(options.selector);
+			const selector = (state: State) => options.selector(state, action);
+			const state: State = yield effects.select(selector);
 			if (!state.resolved) {
 				return;
 			}

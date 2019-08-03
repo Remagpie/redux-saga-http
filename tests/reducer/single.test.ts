@@ -5,7 +5,7 @@ import { expect } from "chai";
 import { HttpFinishAction, HttpStartAction } from "../../src/action";
 import { HttpError } from "../../src/error";
 import { createSingleHttpReducer, HttpState } from "../../src/reducer";
-import { Parameter, Request } from "../types";
+import { payload, Parameter, Request } from "../common";
 
 describe("Single Http Reducer", () => {
 	const type = "TYPE";
@@ -24,12 +24,7 @@ describe("Single Http Reducer", () => {
 		};
 		const startAction: HttpStartAction<Parameter, Request> = {
 			type: `${type}/START`,
-			payload: {
-				params: undefined,
-				request: {
-					foo: 42,
-				},
-			},
+			payload,
 		};
 		const result = reducer(state, startAction);
 		expect(result).to.have.property("resolved", false);
@@ -42,12 +37,7 @@ describe("Single Http Reducer", () => {
 		};
 		const successAction: HttpFinishAction<Parameter, Request> = {
 			type: `${type}/FINISH`,
-			payload: {
-				params: undefined,
-				request: {
-					foo: 42,
-				},
-			},
+			payload,
 		};
 		const result = reducer(state, successAction);
 		expect(result).to.have.property("resolved", true);
@@ -61,10 +51,7 @@ describe("Single Http Reducer", () => {
 		const failAction: HttpFinishAction<Parameter, Request> = {
 			type: `${type}/FINISH`,
 			payload: {
-				params: undefined,
-				request: {
-					foo: 42,
-				},
+				...payload,
 				error: ({} as any) as HttpError,
 			},
 			error: true,

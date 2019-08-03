@@ -10,7 +10,7 @@ import { createHttpAction, HttpFailAction } from "../../src/action";
 import { StatusError } from "../../src/error";
 import { createSingleHttpReducer, HttpState } from "../../src/reducer";
 import { createHttpSaga } from "../../src/saga";
-import { FetchAction, Parameter, Request } from "../types";
+import { payload, FetchAction, Parameter, Request } from "../common";
 
 function mockFetch(dispatch: (a: AnyAction) => void, status: number) {
 	(global as any).fetch = async (input: RequestInfo, init?: RequestInit) => {
@@ -31,12 +31,7 @@ describe("Single Http Saga Integration", () => {
 	const type = "TYPE";
 	const path = "https://www.example.com/";
 	const method = "POST";
-	const httpAction = createHttpAction<Parameter, Request>(type)({
-		params: undefined,
-		request: {
-			foo: 42,
-		},
-	});
+	const httpAction = createHttpAction<Parameter, Request>(type)(payload);
 	const reducer = createSingleHttpReducer<Parameter, Request>(type);
 	const saga = createHttpSaga({
 		type: httpAction.type,

@@ -5,18 +5,12 @@ import { expect } from "chai";
 import { HttpFinishAction, HttpStartAction } from "../../src/action";
 import { HttpError } from "../../src/error";
 import { createObjectHttpReducer } from "../../src/reducer";
-import { Parameter, Request } from "../types";
+import { payload, Parameter, Request } from "../common";
 
 describe("Object Http Reducer", () => {
 	const type = "TYPE";
-	const key = (payload: { request: Request }) => `id-${payload.request.foo}`;
+	const key = (p: { request: Request }) => `id-${p.request.foo}`;
 	const reducer = createObjectHttpReducer<Parameter, Request>(type, key);
-	const payload = {
-		params: undefined,
-		request: {
-			foo: 42,
-		},
-	};
 	const id = key(payload);
 
 	it("should have empty default state", () => {

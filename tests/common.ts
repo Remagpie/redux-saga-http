@@ -1,8 +1,17 @@
-import { HttpFinishAction, HttpStartAction } from "../src/action";
+import { HttpAction, HttpFinishAction, HttpStartAction } from "../src/action";
 
 export type Parameter = void;
 export type Request = {
 	foo: number;
+	bar: string;
+};
+
+export const payload: HttpAction<Parameter, Request>["payload"] = {
+	params: undefined,
+	request: {
+		foo: 42,
+		bar: "dummy",
+	},
 };
 
 export type FetchAction = {

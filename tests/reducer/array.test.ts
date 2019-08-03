@@ -5,18 +5,12 @@ import { expect } from "chai";
 import { HttpFinishAction, HttpStartAction } from "../../src/action";
 import { HttpError } from "../../src/error";
 import { createArrayHttpReducer } from "../../src/reducer";
-import { Parameter, Request } from "../types";
+import { payload, Parameter, Request } from "../common";
 
 describe("Array Http Reducer", () => {
 	const type = "TYPE";
-	const key = (payload: { request: Request }) => payload.request.foo;
+	const key = (p: { request: Request }) => p.request.foo;
 	const reducer = createArrayHttpReducer<Parameter, Request>(type, key);
-	const payload = {
-		params: undefined,
-		request: {
-			foo: 42,
-		},
-	};
 	const id = key(payload);
 
 	it("should have empty default state", () => {

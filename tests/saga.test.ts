@@ -6,43 +6,11 @@ import { runSaga } from "redux-saga";
 import * as effects from "redux-saga/effects";
 import * as sinon from "sinon";
 
-import {
-	createHttpAction,
-	HttpFailAction,
-	HttpFinishAction,
-	HttpStartAction,
-} from "../src/action";
+import { createHttpAction, HttpFailAction } from "../src/action";
 import { StatusError } from "../src/error";
 import { HttpState } from "../src/reducer";
 import { createHttpSaga } from "../src/saga";
-
-type Parameter = void;
-type Request = {
-	foo: number;
-};
-
-type FetchAction = {
-	type: "FETCH";
-	payload: {
-		input: RequestInfo;
-		init?: RequestInit;
-	};
-};
-
-type CallbackAction = {
-	type: "CALLBACK";
-	payload: {
-		params: Parameter;
-		request: Request;
-		response: Response;
-	};
-};
-
-type Action =
-	| HttpStartAction<Parameter, Request>
-	| HttpFinishAction<Parameter, Request>
-	| FetchAction
-	| CallbackAction;
+import { Action, FetchAction, Parameter, Request } from "./types";
 
 describe("Single Http Saga", () => {
 	const path = "https://www.example.com/";

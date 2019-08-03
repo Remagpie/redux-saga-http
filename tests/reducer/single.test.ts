@@ -5,10 +5,11 @@ import { expect } from "chai";
 import { HttpFinishAction, HttpStartAction } from "../../src/action";
 import { HttpError } from "../../src/error";
 import { createSingleHttpReducer, HttpState } from "../../src/reducer";
+import { Parameter, Request } from "../types";
 
 describe("Single Http Reducer", () => {
 	const type = "TYPE";
-	const reducer = createSingleHttpReducer(type);
+	const reducer = createSingleHttpReducer<Parameter, Request>(type);
 
 	it("should have resolved default state", () => {
 		const dummyAction: any = { type: "DUMMY" };
@@ -21,11 +22,13 @@ describe("Single Http Reducer", () => {
 		const state: HttpState = {
 			resolved: true,
 		};
-		const startAction: HttpStartAction<void, null> = {
+		const startAction: HttpStartAction<Parameter, Request> = {
 			type: `${type}/START`,
 			payload: {
 				params: undefined,
-				request: null,
+				request: {
+					foo: 42,
+				},
 			},
 		};
 		const result = reducer(state, startAction);
@@ -37,11 +40,13 @@ describe("Single Http Reducer", () => {
 		const state: HttpState = {
 			resolved: false,
 		};
-		const successAction: HttpFinishAction<void, null> = {
+		const successAction: HttpFinishAction<Parameter, Request> = {
 			type: `${type}/FINISH`,
 			payload: {
 				params: undefined,
-				request: null,
+				request: {
+					foo: 42,
+				},
 			},
 		};
 		const result = reducer(state, successAction);
@@ -53,11 +58,13 @@ describe("Single Http Reducer", () => {
 		const state: HttpState = {
 			resolved: false,
 		};
-		const failAction: HttpFinishAction<void, null> = {
+		const failAction: HttpFinishAction<Parameter, Request> = {
 			type: `${type}/FINISH`,
 			payload: {
 				params: undefined,
-				request: null,
+				request: {
+					foo: 42,
+				},
 				error: ({} as any) as HttpError,
 			},
 			error: true,

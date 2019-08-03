@@ -5,11 +5,7 @@ import { expect } from "chai";
 import { HttpFinishAction, HttpStartAction } from "../../src/action";
 import { HttpError } from "../../src/error";
 import { createArrayHttpReducer } from "../../src/reducer";
-
-type Parameter = void;
-type Request = {
-	foo: number;
-};
+import { Parameter, Request } from "../types";
 
 describe("Array Http Reducer", () => {
 	const type = "TYPE";

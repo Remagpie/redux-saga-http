@@ -1,4 +1,6 @@
-import { HttpFinishAction, HttpSagaAction } from "./action";
+import { Reducer } from "redux";
+
+import { HttpFinishAction } from "./action";
 import { HttpError } from "./error";
 
 /* istanbul ignore next */
@@ -18,13 +20,15 @@ function getStep(base: string, type: string) {
 	return match[1] as "START" | "FINISH";
 }
 
-export function createSingleHttpReducer<Parameter, Request>(type: string) {
+type SingleState = HttpState;
+export function createSingleHttpReducer<Parameter, Request>(
+	type: string
+): Reducer<SingleState> {
 	type P = Parameter;
 	type Q = Request;
-	type State = HttpState;
 
-	const initialState: State = { resolved: true };
-	return (state = initialState, action: HttpSagaAction<P, Q>): State => {
+	const initialState: SingleState = { resolved: true };
+	return (state = initialState, action) => {
 		const step = getStep(type, action.type);
 		if (step == null) {
 			return state;
@@ -36,7 +40,7 @@ export function createSingleHttpReducer<Parameter, Request>(type: string) {
 				};
 			}
 			case "FINISH": {
-				const finishAction: HttpFinishAction<P, Q> = action;
+				const finishAction = action as HttpFinishAction<P, Q>;
 				return {
 					resolved: true,
 					error: finishAction.error
@@ -52,18 +56,16 @@ export function createSingleHttpReducer<Parameter, Request>(type: string) {
 	};
 }
 
+type ObjectState = { [id: string]: HttpState };
 export function createObjectHttpReducer<Parameter, Request>(
 	type: string,
 	key: (payload: { params: Parameter; request: Request }) => string
-) {
+): Reducer<ObjectState> {
 	type P = Parameter;
 	type Q = Request;
-	type State = {
-		[id: string]: HttpState;
-	};
 
-	const initialState: State = {};
-	return (state = initialState, action: HttpSagaAction<P, Q>): State => {
+	const initialState: ObjectState = {};
+	return (state = initialState, action) => {
 		const step = getStep(type, action.type);
 		if (step == null) {
 			return state;
@@ -78,7 +80,7 @@ export function createObjectHttpReducer<Parameter, Request>(
 				};
 			}
 			case "FINISH": {
-				const finishAction: HttpFinishAction<P, Q> = action;
+				const finishAction = action as HttpFinishAction<P, Q>;
 				return {
 					...state,
 					[key(action.payload)]: {
@@ -97,18 +99,16 @@ export function createObjectHttpReducer<Parameter, Request>(
 	};
 }
 
+type ArrayState = { [id: number]: HttpState };
 export function createArrayHttpReducer<Parameter, Request>(
 	type: string,
 	key: (payload: { params: Parameter; request: Request }) => number
-) {
+): Reducer<ArrayState> {
 	type P = Parameter;
 	type Q = Request;
-	type State = {
-		[id: number]: HttpState;
-	};
 
-	const initialState: State = {};
-	return (state = initialState, action: HttpSagaAction<P, Q>): State => {
+	const initialState: ArrayState = {};
+	return (state = initialState, action) => {
 		const step = getStep(type, action.type);
 		if (step == null) {
 			return state;
@@ -123,7 +123,7 @@ export function createArrayHttpReducer<Parameter, Request>(
 				};
 			}
 			case "FINISH": {
-				const finishAction: HttpFinishAction<P, Q> = action;
+				const finishAction = action as HttpFinishAction<P, Q>;
 				return {
 					...state,
 					[key(action.payload)]: {

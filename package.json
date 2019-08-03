@@ -34,6 +34,7 @@
 		"typescript": "^3.5.3"
 	},
 	"dependencies": {
+		"redux": "^4.0.4",
 		"redux-saga": "^1.0.5"
 	}
 }

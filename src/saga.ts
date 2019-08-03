@@ -1,3 +1,4 @@
+import * as pathToRegexp from "path-to-regexp";
 import * as effects from "redux-saga/effects";
 
 import {
@@ -11,7 +12,7 @@ import { HttpState } from "./reducer";
 
 type Method = "GET" | "PUT" | "POST" | "DELETE" | "PATCH";
 
-export function createHttpSaga<Parameter, Request>(options: {
+export function createHttpSaga<Parameter extends object, Request>(options: {
 	type: string;
 	path: string;
 	method: Method;
@@ -87,8 +88,8 @@ export function createHttpSaga<Parameter, Request>(options: {
 	};
 }
 
-function* httpRequest<Parameter, Request>(
-	_params: Parameter,
+function* httpRequest<Parameter extends object, Request>(
+	params: Parameter,
 	request: Request,
 	options: {
 		type: string;
@@ -96,11 +97,10 @@ function* httpRequest<Parameter, Request>(
 		method: Method;
 	}
 ) {
-	// FIXME: apply url parameters to path
-	const { path, method } = options;
+	const path = pathToRegexp.compile(options.path)(params);
 
 	const init: RequestInit = {
-		method,
+		method: options.method,
 		headers: { "Content-Type": "application/json" },
 		body: request === undefined ? undefined : JSON.stringify(request),
 	};

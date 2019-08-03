@@ -17,6 +17,8 @@ import { StatusError } from "../../src/error";
 import { createArrayHttpReducer, HttpState } from "../../src/reducer";
 import { createHttpSaga } from "../../src/saga";
 import {
+	compiledPath,
+	path,
 	payload,
 	Action,
 	CallbackAction,
@@ -46,7 +48,6 @@ function mockFetch(dispatch: (a: AnyAction) => void, status: number) {
 
 describe("Array Http Saga Integration", () => {
 	const type = "TYPE";
-	const path = "https://www.example.com/";
 	const method = "POST";
 	const actionCreator = createHttpAction<Parameter, Request>(type);
 	const key = ({ request }: { request: Request }) => request.foo;
@@ -153,8 +154,8 @@ describe("Array Http Saga Integration", () => {
 		for (let i = 0; i < actions.length; ++i) {
 			const fetchAction = actions[i][2] as FetchAction;
 			expect(fetchAction).to.have.property("type", "FETCH");
-			expect(fetchAction).to.have.nested.property("payload.input", path);
-			expect(fetchAction).to.have.deep.nested.property("payload.init", {
+			expect(fetchAction.payload).to.have.property("input", compiledPath);
+			expect(fetchAction.payload).to.have.deep.property("init", {
 				method,
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(httpActions[i].payload.request),

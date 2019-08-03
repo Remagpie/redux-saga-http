@@ -1,13 +1,21 @@
 import { HttpAction, HttpFinishAction, HttpStartAction } from "../src/action";
 
-export type Parameter = void;
+export type Parameter = {
+	f: number;
+	b: string;
+};
 export type Request = {
 	foo: number;
 	bar: string;
 };
 
+export const path = "https://www.example.com/:f/:b";
+export const compiledPath = "https://www.example.com/21/d";
 export const payload: HttpAction<Parameter, Request>["payload"] = {
-	params: undefined,
+	params: {
+		f: 21,
+		b: "d",
+	},
 	request: {
 		foo: 42,
 		bar: "dummy",

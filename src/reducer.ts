@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Reducer } from "redux";
 
 import { HttpFinishAction } from "./action";

@@ -1,8 +1,13 @@
 {
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
+		"target": "ES5",
 		"baseUrl": "../",
-		"outDir": "lib"
+		"outDir": "../lib",
+		"declaration": true,
+		"declarationDir": "../lib",
+
+		"downlevelIteration": true
 	},
 	"include": ["./**/*.ts"]
 }

@@ -2,9 +2,26 @@
 	"name": "redux-saga-http",
 	"version": "0.1.0",
 	"description": "Send http requests with redux-saga",
-	"author": "Joonmo Yang <dev@remagpie.com>",
 	"license": "BSD-2-Clause",
+	"homepage": "https://github.com/Remagpie/redux-saga-http",
+	"repository": "github:Remagpie/redux-saga-http",
+	"bugs": "https://github.com/Remagpie/redux-saga-http/issues",
+	"keywords": [
+		"redux",
+		"redux-saga",
+		"fetch",
+		"http",
+		"ajax"
+	],
+	"author": "Joonmo Yang <dev@remagpie.com>",
+	"main": "lib/index.js",
+	"module": "lib/index.es.js",
+	"files": [
+		"lib"
+	],
+	"types": "lib/index.d.ts",
 	"scripts": {
+		"build": "rollup -c && tsc -p src/tsconfig.json",
 		"lint": "yarn lint:tsc && yarn lint:eslint",
 		"lint:tsc": "tsc --noEmit -p tsconfig.json",
 		"lint:eslint": "eslint --ext .ts src/",
@@ -30,14 +47,17 @@
 		"mocha": "^6.2.0",
 		"nyc": "^14.1.1",
 		"prettier": "^1.18.2",
+		"redux": "^4.0.4",
 		"redux-saga-tester": "^1.0.510",
+		"rollup": "^1.18.0",
+		"rollup-plugin-typescript2": "^0.22.1",
 		"sinon": "^7.3.2",
 		"ts-node": "^8.3.0",
+		"tslib": "^1.10.0",
 		"typescript": "^3.5.3"
 	},
 	"dependencies": {
 		"path-to-regexp": "^3.0.0",
-		"redux": "^4.0.4",
 		"redux-saga": "^1.0.5"
 	}
 }

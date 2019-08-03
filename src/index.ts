@@ -5,4 +5,11 @@ export {
 	createObjectHttpReducer,
 	createSingleHttpReducer,
 } from "./reducer";
-export { createHttpSaga } from "./saga";
+export {
+	createHttpSaga,
+	createGetSaga,
+	createPutSaga,
+	createPostSaga,
+	createDeleteSaga,
+	createPatchSaga,
+} from "./saga";

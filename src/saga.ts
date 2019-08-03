@@ -12,7 +12,32 @@ import { HttpState } from "./reducer";
 
 type Method = "GET" | "PUT" | "POST" | "DELETE" | "PATCH";
 
-export function createHttpSaga<Parameter extends object, Request>(options: {
+function* httpRequest<Parameter extends object, Request>(
+	params: Parameter,
+	request: Request,
+	options: {
+		type: string;
+		path: string;
+		method: Method;
+	}
+) {
+	const path = pathToRegexp.compile(options.path)(params);
+
+	const init: RequestInit = {
+		method: options.method,
+		headers: { "Content-Type": "application/json" },
+		body: request === undefined ? undefined : JSON.stringify(request),
+	};
+
+	const response: Response = yield fetch(path, init);
+	if (response.status >= 400) {
+		throw new StatusError(response);
+	}
+
+	return response;
+}
+
+type CreateSagaOption<Parameter, Request> = {
 	type: string;
 	path: string;
 	method: Method;
@@ -22,7 +47,11 @@ export function createHttpSaga<Parameter extends object, Request>(options: {
 		request: Request;
 		response: Response;
 	}) => IterableIterator<any>;
-}) {
+};
+
+export function createHttpSaga<Parameter extends object, Request>(
+	options: CreateSagaOption<Parameter, Request>
+) {
 	type P = Parameter;
 	type Q = Request;
 	type State = HttpState;
@@ -88,27 +117,47 @@ export function createHttpSaga<Parameter extends object, Request>(options: {
 	};
 }
 
-function* httpRequest<Parameter extends object, Request>(
-	params: Parameter,
-	request: Request,
-	options: {
-		type: string;
-		path: string;
-		method: Method;
-	}
+export function createGetSaga<Parameter extends object, Request>(
+	options: Omit<CreateSagaOption<Parameter, Request>, "method">
 ) {
-	const path = pathToRegexp.compile(options.path)(params);
+	return createHttpSaga({
+		...options,
+		method: "GET",
+	});
+}
 
-	const init: RequestInit = {
-		method: options.method,
-		headers: { "Content-Type": "application/json" },
-		body: request === undefined ? undefined : JSON.stringify(request),
-	};
+export function createPutSaga<Parameter extends object, Request>(
+	options: Omit<CreateSagaOption<Parameter, Request>, "method">
+) {
+	return createHttpSaga({
+		...options,
+		method: "PUT",
+	});
+}
 
-	const response: Response = yield fetch(path, init);
-	if (response.status >= 400) {
-		throw new StatusError(response);
-	}
+export function createPostSaga<Parameter extends object, Request>(
+	options: Omit<CreateSagaOption<Parameter, Request>, "method">
+) {
+	return createHttpSaga({
+		...options,
+		method: "POST",
+	});
+}
 
-	return response;
+export function createDeleteSaga<Parameter extends object, Request>(
+	options: Omit<CreateSagaOption<Parameter, Request>, "method">
+) {
+	return createHttpSaga({
+		...options,
+		method: "DELETE",
+	});
+}
+
+export function createPatchSaga<Parameter extends object, Request>(
+	options: Omit<CreateSagaOption<Parameter, Request>, "method">
+) {
+	return createHttpSaga({
+		...options,
+		method: "PATCH",
+	});
 }
